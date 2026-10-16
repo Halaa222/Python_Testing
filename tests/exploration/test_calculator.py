@@ -33,9 +33,11 @@ def test_divide_by_zero_raises_zero_division_error(calculator: Calculator) -> No
 @pytest.mark.parametrize(
     ("x", "y", "expected"),
     [
-        (1, 2, 2),
-        (2, 5, 10),
-        (3, 6, 18),
+        pytest.param(1, 2, 3, id="positive"),
+        pytest.param(-4,-6,-10, id="negative"),
+        pytest.param(-2, 2, 0, id="cancel-out"),
+        pytest.param(0.1, 0.2, pytest.approx(0.3), id="floats"),
+        pytest.param(10**30, 1, 10**30 +1, id="")
     ],
 )
 def test_multiply_returns_correct_result(

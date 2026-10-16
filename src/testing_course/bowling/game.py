@@ -1,3 +1,6 @@
 class Game:
     def score(self) -> int:
-        raise NotImplementedError
+        return 0
+
+    def roll(selfself, pins:int):
+        pass

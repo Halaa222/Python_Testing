@@ -1,6 +1,10 @@
-from testing_course.exploration.calculator import Calculator
+from src.testing_course.exploration.person_service import PersonService
+from src.testing_course.exploration.person import Person
 
-calc = Calculator
-calc.add("1",2)
-calc.add(1)
-total: str = calc.multiply(2,3)
+
+class HalfRepositiory:
+    def create_person(selfself, person: Person) -> None:
+        return None
+
+service = PersonService(HalfRepositiory())
+service.register("Alice")
