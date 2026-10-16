@@ -5,6 +5,9 @@ class Game:
     def roll(self, pins:int):
         self._rolls.append(pins)
 
+    def roll(self, *pins: int) -> None:
+        self._rolls.extend(pins)
+
     def score(self) -> int:
         score = 0
         roll_index = 0
@@ -15,3 +18,4 @@ class Game:
                 score += self._rolls[roll_index] + self._rolls[roll_index +1]
             roll_index += 2
         return score
+
