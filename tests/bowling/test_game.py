@@ -17,3 +17,10 @@ def test_gutter_game(sut: Game):
 def test_all_ones(sut: Game):
     roll_many(sut, 20, 1)
     assert sut.score() == 20
+    
+def test_one_spare(sut: Game):
+    sut.roll(5)
+    sut.roll(5)
+    sut.roll(3)
+    roll_many(sut, 17, 0)
+    assert sut.score() == 16
