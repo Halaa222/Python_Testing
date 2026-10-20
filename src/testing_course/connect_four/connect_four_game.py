@@ -13,7 +13,7 @@ class ConnectFourGame:
         
 
     def get_player_at(self, row: int, col: int) -> Player:
-        return self._board[col][row]
+        return self._board[row][col]
 
     @property
     def player_on_turn(self) -> Player:
@@ -21,35 +21,66 @@ class ConnectFourGame:
 
     @property
     def is_game_over(self) -> bool:
-        # Player Red
-        countRed = 0
-
-        # Horizontal
-        for row in range(self._rows):
-            for col in range(self._cols - 1):
-                if self._board[col][row] == Player.RED and self._board[col + 1][row ] == Player.RED:
-                    countRed += 1
-                if countRed == 4:
-                    self._winner = Player.RED
-                    self._is_game_over = True
-                    return
-        countRed = 0
-
-        # Vertical
-        for col in range(self._cols):
-            for row in range(self._rows -1):
-                if self._board[col][row] == Player.RED and self._board[col][row + 1] == Player.RED:
-                    countRed += 1
-                if countRed == 4:
-                    self._winner = Player.RED
-                    self._is_game_over = True
-                    return
-                
-        # Diagnonal left bottom to top right
-        #TODO
-        
-        # Digaonal left top to bottom right
-        #TODO          
+        if self._is_game_over:
+            return True
+    
+        for player in (Player.RED, Player.YELLOW): 
+            # Horizontal 
+            for row in range(self._rows):
+                for col in range(self._cols - 3):
+                    if (self._board[row][col] == player and
+                        self._board[row][col + 1] == player and
+                        self._board[row][col + 2] == player and
+                        self._board[row][col + 3] == player):
+                        self._winner = player
+                        self._is_game_over = True
+                        return True
+    
+            # Vertikal 
+            for row in range(self._rows - 3):
+                for col in range(self._cols):
+                    if (self._board[row][col] == player and
+                        self._board[row + 1][col] == player and
+                        self._board[row + 2][col] == player and
+                        self._board[row + 3][col] == player):
+                        self._winner = player
+                        self._is_game_over = True
+                        return True
+    
+            # Diagonal links-oben nach rechts-unten (\)
+            for row in range(self._rows - 3):
+                for col in range(self._cols - 3):
+                    if (self._board[row][col] == player and
+                        self._board[row + 1][col + 1] == player and
+                        self._board[row + 2][col + 2] == player and
+                        self._board[row + 3][col + 3] == player):
+                        self._winner = player
+                        self._is_game_over = True
+                        return True
+    
+            # Diagonal links-unten nach rechts-oben (/)
+            for row in range(3, self._rows):
+                for col in range(self._cols - 3):
+                    if (self._board[row][col] == player and
+                        self._board[row - 1][col + 1] == player and
+                        self._board[row - 2][col + 2] == player and
+                        self._board[row - 3][col + 3] == player):
+                        self._winner = player
+                        self._is_game_over = True
+                        return True 
+    
+        # Unentschieden (Spielfeld komplett voll)
+        is_full = all(
+            self._board[r][c] != Player.NONE 
+            for r in range(self._rows) 
+            for c in range(self._cols)
+        )
+        if is_full:
+            self._winner = Player.NONE
+            self._is_game_over = True
+            return True
+    
+        return False 
 
     @property
     def winner(self) -> Player:
