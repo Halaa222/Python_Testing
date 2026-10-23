@@ -61,8 +61,12 @@ def test_full_column():
     for i in range(6):
         game.drop(0)
 
+    current_player = game.player_on_turn
+
     with pytest.raises(InvalidMoveError):
         game.drop(0)
+
+    assert game.player_on_turn == current_player
 
 def test_invalid_column():
     game = ConnectFourGame(Player.RED)
@@ -299,6 +303,7 @@ def test_no_winner_empty_board():
     assert game.winner == Player.NONE
     assert game.check_winner(Player.RED) == False
     assert game.check_winner(Player.NONE) == False
+    assert game.check_winner(Player.YELLOW) == False
 
 
 def test_player_after_invalid_move():
